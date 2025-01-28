@@ -97,7 +97,7 @@ class _UserPageState extends State<UserPage> {
               SizedBox(height: 20),
               // Task cards with CardSwiper
               Container(
-                height: 350,
+                height: 365,
                 width: 400,
                 child: CardSwiper(
                   cardsCount: tasks.length,
