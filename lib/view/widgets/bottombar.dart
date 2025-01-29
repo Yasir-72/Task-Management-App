@@ -16,7 +16,7 @@ class _BottomBarState extends State<BottomBar> {
   final List<Widget> _pages = [
     const HomePage(),
     const UserPage(),
-    const AdminPAge(),
+    const AdminPage(),
   ];
 
   @override
