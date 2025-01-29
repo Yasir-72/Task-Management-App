@@ -94,21 +94,27 @@ class _TaskCardState extends State<TaskCard> {
               children: [
                 // Target Container
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 14),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(35),
                     color: Colors.white.withOpacity(0.5),
                   ),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(width: 40), // Leave space for draggable icon
-                      Text(
-                        "Drag to mark done",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                      Row(
+                        children: [
+                          SizedBox(width: 40), // Leave space for draggable icon
+                          Text(
+                            "Drag to mark done",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ],
                       ),
+                      Icon(Icons.arrow_forward_rounded, color: Colors.white, size: 28), // End Icon
                     ],
                   ),
                 ),
@@ -145,7 +151,8 @@ class _TaskCardState extends State<TaskCard> {
                           color: Color(0xFFD95639),
                         ),
                         child: IconButton(
-                          icon: Icon(Icons.check, color: Colors.white, size: 25),
+                          icon:
+                              Icon(Icons.check, color: Colors.white, size: 25),
                           onPressed: () {},
                         ),
                       ),

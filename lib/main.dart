@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_managment_app/view/screens/userpage.dart';
+import 'package:task_managment_app/view/widgets/bottombar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(),
-      home: UserPage(),
+      home: BottomBar(),
     );
   }
 }
