@@ -158,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                   ElevatedButton(
                     onPressed: _isLoading ? null : _login,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Color(0xFFD95639),
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.symmetric(horizontal: 140),
                       shape: RoundedRectangleBorder(
@@ -194,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text(
                           "Sign Up",
                           style: TextStyle(
-                              color: Colors.blue, fontWeight: FontWeight.bold),
+                              color: Color(0xFFD95639), fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],

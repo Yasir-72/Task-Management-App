@@ -31,91 +31,93 @@ class _AdminPageState extends State<AdminPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              "Task Name",
-              style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: _taskNameController,
-              decoration: _textfield("Enter Task"),
-            ),
-            const SizedBox(height: 15),
-            const Text(
-              "Description",
-              style: TextStyle(
-                color: Colors.black87,
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: _descriptionController,
-              decoration: _textfield("Enter some text"),
-            ),
-            const SizedBox(height: 15),
-
-            // team member section
-
-            const Text(
-              "Team Members",
-              style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            SizedBox(
-              height: 150, // Adjust height for avatar and text
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: _teamMembers.length,
-                itemBuilder: (context, index) {
-                  final member = _teamMembers[index];
-                  return _buildMemberCard(member);
-                },
-              ),
-            ),
-
-            // details section
-            Center(
-              child: const Text(
-                "Details",
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                "Task Name",
                 style: TextStyle(
                     color: Colors.black87,
-                    fontSize: 22,
+                    fontSize: 17,
                     fontWeight: FontWeight.bold),
               ),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                DetailCards("12:00 AM", "12 March 2023"),
-                DetailCards("12:00 AM", "12 March 2023"),
-              ],
-            ),
-            const SizedBox(height: 14),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 110, vertical: 14),
-                  backgroundColor: Color(0xFFD95639)),
-              child: Text(
-                "Create Task",
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _taskNameController,
+                decoration: _textfield("Enter Task"),
+              ),
+              const SizedBox(height: 15),
+              const Text(
+                "Description",
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
+                  color: Colors.black87,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: _textfield("Enter some text"),
+              ),
+              const SizedBox(height: 15),
+          
+              // team member section
+          
+              const Text(
+                "Team Members",
+                style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 17,
                     fontWeight: FontWeight.bold),
               ),
-            )
-          ],
+              const SizedBox(height: 12),
+              SizedBox(
+                height: 150, // Adjust height for avatar and text
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _teamMembers.length,
+                  itemBuilder: (context, index) {
+                    final member = _teamMembers[index];
+                    return _buildMemberCard(member);
+                  },
+                ),
+              ),
+          
+              // details section
+              Center(
+                child: const Text(
+                  "Details",
+                  style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  DetailCards("12:00 AM", "12 March 2023"),
+                  DetailCards("12:00 AM", "12 March 2023"),
+                ],
+              ),
+              const SizedBox(height: 14),
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 110, vertical: 14),
+                    backgroundColor: Color(0xFFD95639)),
+                child: Text(
+                  "Create Task",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

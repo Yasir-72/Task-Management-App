@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:task_managment_app/view/screens/loginpage.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
@@ -160,7 +161,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ElevatedButton(
                     onPressed: _isLoading ? null : _register,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Color(0xFFD95639),
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.symmetric(horizontal: 120),
                       shape: RoundedRectangleBorder(
@@ -192,7 +193,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: Text(
                           "Sign In",
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: Color(0xFFD95639),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
