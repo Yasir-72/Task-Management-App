@@ -32,14 +32,14 @@ class _AdminPageState extends State<AdminPage> {
       body: Padding(
         padding: const EdgeInsets.all(18),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
               "Task Name",
               style: TextStyle(
-                color: Colors.black87,
-                fontSize: 17,
-              ),
+                  color: Colors.black87,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             TextFormField(
@@ -52,6 +52,7 @@ class _AdminPageState extends State<AdminPage> {
               style: TextStyle(
                 color: Colors.black87,
                 fontSize: 17,
+                fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 8),
@@ -60,14 +61,17 @@ class _AdminPageState extends State<AdminPage> {
               decoration: _textfield("Enter some text"),
             ),
             const SizedBox(height: 15),
+
+            // team member section
+
             const Text(
               "Team Members",
               style: TextStyle(
-                color: Colors.black87,
-                fontSize: 17,
-              ),
+                  color: Colors.black87,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
             SizedBox(
               height: 150, // Adjust height for avatar and text
               child: ListView.builder(
@@ -79,6 +83,38 @@ class _AdminPageState extends State<AdminPage> {
                 },
               ),
             ),
+
+            // details section
+            Center(
+              child: const Text(
+                "Details",
+                style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                DetailCards("12:00 AM", "12 March 2023"),
+                DetailCards("12:00 AM", "12 March 2023"),
+              ],
+            ),
+            const SizedBox(height: 14),
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 110, vertical: 14),
+                  backgroundColor: Color(0xFFD95639)),
+              child: Text(
+                "Create Task",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+            )
           ],
         ),
       ),
@@ -120,4 +156,48 @@ class _AdminPageState extends State<AdminPage> {
       ),
     );
   }
+}
+
+Widget DetailCards(String time, String date) {
+  return SizedBox(
+    height: 175, // Adjust size if needed
+    width: 175,
+    child: Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      color: Colors.grey[200],
+      elevation: 5.0,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: Color(0xFFD95639)),
+              child: IconButton(
+                icon: Icon(
+                  Icons.calendar_month,
+                  color: Colors.white,
+                ),
+                onPressed: () {},
+              ),
+            ),
+            Spacer(),
+            Text(
+              time,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ),
+            Text(date,
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 15,
+                )),
+          ],
+        ),
+      ),
+    ),
+  );
 }
