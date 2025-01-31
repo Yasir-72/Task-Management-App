@@ -10,6 +10,7 @@ class AdminPage extends StatefulWidget {
 class _AdminPageState extends State<AdminPage> {
   final TextEditingController _taskNameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+
   final List<Map<String, String>> _teamMembers = [
     {'name': 'You', 'role': 'Designer'},
     {'name': 'Colin', 'role': 'Designer'},
@@ -21,6 +22,10 @@ class _AdminPageState extends State<AdminPage> {
     {'name': 'Raza', 'role': 'Manager'},
   ];
 
+  Set<int> _selectedIndexes = {}; // Store selected indexes
+  DateTime? _selectedDate;
+  TimeOfDay? _selectedTime;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,173 +35,232 @@ class _AdminPageState extends State<AdminPage> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(18),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                "Task Name",
-                style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold),
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _buildLabel("Task Name"),
+            _buildTextField(_taskNameController, "Enter Task"),
+            _buildLabel("Description"),
+            _buildTextField(_descriptionController, "Enter some text"),
+            _buildLabel("Team Members"),
+            SizedBox(
+              height: 140,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _teamMembers.length,
+                itemBuilder: (context, index) => _buildMemberCard(index),
               ),
-              const SizedBox(height: 8),
-              TextFormField(
-                controller: _taskNameController,
-                decoration: _textfield("Enter Task"),
-              ),
-              const SizedBox(height: 15),
-              const Text(
-                "Description",
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextFormField(
-                controller: _descriptionController,
-                decoration: _textfield("Enter some text"),
-              ),
-              const SizedBox(height: 15),
-          
-              // team member section
-          
-              const Text(
-                "Team Members",
-                style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                height: 150, // Adjust height for avatar and text
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _teamMembers.length,
-                  itemBuilder: (context, index) {
-                    final member = _teamMembers[index];
-                    return _buildMemberCard(member);
-                  },
-                ),
-              ),
-          
-              // details section
-              Center(
-                child: const Text(
-                  "Details",
-                  style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  DetailCards("12:00 AM", "12 March 2023"),
-                  DetailCards("12:00 AM", "12 March 2023"),
-                ],
-              ),
-              const SizedBox(height: 14),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 110, vertical: 14),
-                    backgroundColor: Color(0xFFD95639)),
-                child: Text(
-                  "Create Task",
-                  style: TextStyle(
+            ),
+            _buildLabel("Details"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                DetailCards(
+                  _selectedDate == null
+                      ? "Select Date"
+                      : "${_selectedDate!.toLocal()}".split(' ')[0],
+                  GestureDetector(
+                    onTap: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(3000),
+                      );
+                      if (pickedDate != null && pickedDate != _selectedDate) {
+                        setState(() {
+                          _selectedDate = pickedDate;
+                        });
+                      }
+                    },
+                    child: const Icon(
+                      Icons.calendar_month_outlined,
                       color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
-              )
-            ],
-          ),
+                DetailCards(
+                  _selectedTime == null
+                      ? "Select Time"
+                      : _selectedTime!.format(context),
+                  GestureDetector(
+                    onTap: () async {
+                      TimeOfDay? pickedTime = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+                      if (pickedTime != null && pickedTime != _selectedTime) {
+                        setState(() {
+                          _selectedTime = pickedTime;
+                        });
+                      }
+                    },
+                    child: const Icon(
+                      Icons.access_time,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 110, vertical: 12),
+                  backgroundColor: const Color(0xFFD95639)),
+              child: const Text(
+                "Create Task",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+            )
+          ],
         ),
       ),
     );
   }
 
-  InputDecoration _textfield(String hint) {
-    return InputDecoration(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      fillColor: Colors.grey[200],
-      filled: true,
-      hintText: hint,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(35),
-        borderSide: BorderSide.none,
+  Widget _buildLabel(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 15, bottom: 8),
+      child: Text(
+        text,
+        style: const TextStyle(
+            color: Colors.black87, fontSize: 17, fontWeight: FontWeight.bold),
       ),
     );
   }
 
-  Widget _buildMemberCard(Map<String, String> member) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Column(
+  Widget _buildTextField(TextEditingController controller, String hint) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        fillColor: Colors.grey[200],
+        filled: true,
+        hintText: hint,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(35),
+          borderSide: BorderSide.none,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMemberCard(int index) {
+    final member = _teamMembers[index];
+    bool isSelected = _selectedIndexes.contains(index);
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          if (isSelected) {
+            _selectedIndexes.remove(index);
+          } else {
+            _selectedIndexes.add(index);
+          }
+        });
+      },
+      child: Stack(
         children: [
-          CircleAvatar(
-            radius: 40,
-            backgroundImage: AssetImage("images/man.png"),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: isSelected ? Colors.green : Colors.transparent,
+                      width: 3,
+                    ),
+                  ),
+                  child: CircleAvatar(
+                    radius: 40,
+                    backgroundImage: const AssetImage("images/man.png"),
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  member['name']!,
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  member['role']!,
+                  style: const TextStyle(color: Colors.grey, fontSize: 12),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 5),
-          Text(
-            member['name']!,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            member['role']!,
-            style: const TextStyle(color: Colors.grey, fontSize: 12),
-          ),
+          if (isSelected)
+            Positioned(
+              top: 0,
+              right: 0,
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedIndexes.remove(index);
+                  });
+                },
+                child: Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.red,
+                  ),
+                  padding: const EdgeInsets.all(4),
+                  child: const Icon(
+                    Icons.close,
+                    size: 16,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
   }
 }
 
-Widget DetailCards(String time, String date) {
+Widget DetailCards(String value, Widget icon) {
   return SizedBox(
-    height: 175, // Adjust size if needed
+    height: 120,
     width: 175,
     child: Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       color: Colors.grey[200],
       elevation: 5.0,
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle, color: Color(0xFFD95639)),
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(0xFFD95639),
+              ),
               child: IconButton(
-                icon: Icon(
-                  Icons.calendar_month,
-                  color: Colors.white,
-                ),
+                icon: icon,
                 onPressed: () {},
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Text(
-              time,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold),
+              value,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            Text(date,
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 15,
-                )),
           ],
         ),
       ),

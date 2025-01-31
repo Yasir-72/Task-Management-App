@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class HeaderWidget extends StatelessWidget {
   final String role;
@@ -52,9 +53,14 @@ class HeaderWidget extends StatelessWidget {
               ),
               onPressed: () {},
             ),
-            CircleAvatar(
-              radius: 30,
-              backgroundImage: AssetImage(avatarUrl),
+            GestureDetector(
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+              child: CircleAvatar(
+                radius: 30,
+                backgroundImage: AssetImage(avatarUrl),
+              ),
             ),
           ],
         ),

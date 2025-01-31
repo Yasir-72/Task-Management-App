@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
+import 'package:task_managment_app/view/widgets/drawer.dart';
 import 'package:task_managment_app/view/widgets/header.dart';
 import 'package:task_managment_app/view/widgets/tabs.dart';
 import 'package:task_managment_app/view/widgets/task_card.dart';
@@ -34,7 +35,8 @@ class _UserPageState extends State<UserPage> {
     },
     {
       'time': '03:30 PM',
-      'task': 'Team meeting on app design updates Team meeting on app design updates Team meeting on app design updates Team meeting on app design updates',
+      'task':
+          'Team meeting on app design updates Team meeting on app design updates Team meeting on app design updates Team meeting on app design updates',
       'assignees': [
         'https://via.placeholder.com/150',
         'https://via.placeholder.com/200',
@@ -125,7 +127,7 @@ class _UserPageState extends State<UserPage> {
                       swipeDirection = "unknown";
                     }
                     print('Swiped task $index to the $swipeDirection');
-                    return true; 
+                    return true;
                   },
                 ),
               ),
@@ -133,6 +135,7 @@ class _UserPageState extends State<UserPage> {
           ),
         ),
       ),
+      drawer: AppDrawer(),
     );
   }
 }
