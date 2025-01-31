@@ -5,9 +5,7 @@ import 'package:task_managment_app/view/screens/loginpage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-    );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -20,7 +18,22 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(),
+      theme: ThemeData.light().copyWith(
+        primaryColor: Color(0xFFD95639), // Header background color
+        scaffoldBackgroundColor: Colors.white,
+        dialogBackgroundColor: Colors.white,
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: Color(0xFFD95639), // Button text color
+          ),
+        ),
+        colorScheme: ColorScheme.light(
+          primary: Color(0xFFD95639), // **Header background color**
+          onPrimary: Colors.white, // **Header text color**
+          surface: Colors.white,
+          onSurface: Colors.black,
+        ),
+      ),
       home: LoginPage(),
     );
   }

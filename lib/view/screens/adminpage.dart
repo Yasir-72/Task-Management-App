@@ -23,8 +23,8 @@ class _AdminPageState extends State<AdminPage> {
   ];
 
   Set<int> _selectedIndexes = {}; // Store selected indexes
-  DateTime? _selectedDate;
-  TimeOfDay? _selectedTime;
+  DateTime? _startDate;
+  DateTime? _endDate;
 
   @override
   Widget build(BuildContext context) {
@@ -57,20 +57,21 @@ class _AdminPageState extends State<AdminPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 DetailCards(
-                  _selectedDate == null
-                      ? "Select Date"
-                      : "${_selectedDate!.toLocal()}".split(' ')[0],
+                  _startDate == null
+                      ? "Start Date"
+                      : "${_startDate!.toLocal()}".split(' ')[0],
                   GestureDetector(
                     onTap: () async {
-                      DateTime? pickedDate = await showDatePicker(
+                      DateTime? pickedStartDate = await showDatePicker(
                         context: context,
-                        initialDate: DateTime.now(),
+                        initialDate: _startDate ?? DateTime.now(),
                         firstDate: DateTime.now(),
                         lastDate: DateTime(3000),
                       );
-                      if (pickedDate != null && pickedDate != _selectedDate) {
+                      if (pickedStartDate != null) {
                         setState(() {
-                          _selectedDate = pickedDate;
+                          _startDate = pickedStartDate;
+                          _endDate = _startDate!.add(const Duration(days: 1));
                         });
                       }
                     },
@@ -81,23 +82,27 @@ class _AdminPageState extends State<AdminPage> {
                   ),
                 ),
                 DetailCards(
-                  _selectedTime == null
-                      ? "Select Time"
-                      : _selectedTime!.format(context),
+                  _endDate == null
+                      ? "End Date"
+                      : "${_endDate!.toLocal()}".split(' ')[0],
                   GestureDetector(
                     onTap: () async {
-                      TimeOfDay? pickedTime = await showTimePicker(
+                      if (_startDate == null) return;
+                      DateTime? pickedEndDate = await showDatePicker(
                         context: context,
-                        initialTime: TimeOfDay.now(),
+                        initialDate: _endDate ??
+                            _startDate!.add(const Duration(days: 1)),
+                        firstDate: _startDate!.add(const Duration(days: 1)),
+                        lastDate: DateTime(3000),
                       );
-                      if (pickedTime != null && pickedTime != _selectedTime) {
+                      if (pickedEndDate != null) {
                         setState(() {
-                          _selectedTime = pickedTime;
+                          _endDate = pickedEndDate;
                         });
                       }
                     },
                     child: const Icon(
-                      Icons.access_time,
+                      Icons.calendar_month_outlined,
                       color: Colors.white,
                     ),
                   ),

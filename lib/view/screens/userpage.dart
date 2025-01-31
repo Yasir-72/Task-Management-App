@@ -20,7 +20,8 @@ class _UserPageState extends State<UserPage> {
   final List<Map<String, dynamic>> tasks = [
     {
       'time': '04:00 PM',
-      'task': 'Make a dribble shot for Hyperactive',
+      'task':
+          'Make a dribble shot for Hyperactive Make a dribble shot for HyperactiveMake a dribble shot for Hyperactive',
       'assignees': [
         'https://via.placeholder.com/150',
         'https://via.placeholder.com/200',
@@ -28,7 +29,8 @@ class _UserPageState extends State<UserPage> {
     },
     {
       'time': '05:00 PM',
-      'task': 'Review design mockups',
+      'task':
+          'Review design mockups Review design mockups Review design mockups',
       'assignees': [
         'https://via.placeholder.com/150',
       ],
