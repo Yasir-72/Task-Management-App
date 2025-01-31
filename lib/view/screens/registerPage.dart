@@ -1,7 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:task_managment_app/view/screens/loginpage.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -12,12 +12,13 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   bool _isLoading = false;
 
@@ -71,10 +72,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
     try {
       // Firebase registration logic
-      // await _auth.createUserWithEmailAndPassword(
-      //   email: _emailController.text,
-      //   password: _passwordController.text,
-      // );
+      await _auth.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
 
       // Display success message
       ScaffoldMessenger.of(context).showSnackBar(
@@ -119,7 +120,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   Text(
                     "Let's create your account",
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFFD95639)),
                   ),
                   SizedBox(height: 40),
 
@@ -152,7 +156,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   TextFormField(
                     controller: _confirmPasswordController,
                     obscureText: true,
-                    decoration: _inputDecoration("Confirm Password", Icons.lock_reset),
+                    decoration:
+                        _inputDecoration("Confirm Password", Icons.lock_reset),
                     validator: _validateConfirmPassword,
                   ),
                   SizedBox(height: 40),
@@ -187,7 +192,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => LoginPage()),
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
                           );
                         },
                         child: Text(
@@ -222,7 +228,7 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30),
-        borderSide: BorderSide(color: Colors.black26, width: 2.0),
+        borderSide: BorderSide(color: Color(0xFFD95639), width: 2.0),
       ),
     );
   }

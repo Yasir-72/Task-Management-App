@@ -14,7 +14,6 @@ class _BottomBarState extends State<BottomBar> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    const HomePage(),
     const UserPage(),
     const AdminPage(),
   ];
@@ -59,10 +58,10 @@ class _BottomBarState extends State<BottomBar> {
         });
       },
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 500),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
-          color: isActive ? Colors.grey.shade200 : Colors.transparent,
+          color: isActive ? Colors.grey.shade300 : Colors.transparent,
           borderRadius: BorderRadius.circular(30),
         ),
         child: Row(
@@ -71,7 +70,8 @@ class _BottomBarState extends State<BottomBar> {
             Icon(icon, color: Colors.black),
             if (isActive) ...[
               const SizedBox(width: 6),
-              Text(label, style: const TextStyle(fontSize: 14, color: Colors.black)),
+              Text(label,
+                  style: const TextStyle(fontSize: 15, color: Colors.black)),
             ],
           ],
         ),

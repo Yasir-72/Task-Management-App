@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:task_managment_app/view/screens/userpage.dart';
+import 'package:task_managment_app/view/widgets/bottombar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -70,7 +72,10 @@ class _HomePageState extends State<HomePage> {
                   height: 50,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => BottomBar()));
+                  },
                   style: ElevatedButton.styleFrom(
                     padding:
                         EdgeInsets.symmetric(horizontal: 100, vertical: 14),

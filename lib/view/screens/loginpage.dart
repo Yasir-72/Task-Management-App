@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:task_managment_app/view/screens/RegisterPage.dart';
-import 'package:task_managment_app/view/widgets/bottombar.dart';
+import 'package:task_managment_app/view/screens/homepage.dart';
+import 'package:task_managment_app/view/screens/registerPage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,7 +14,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -34,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
       // If UID exists, navigate to BottomBar
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => BottomBar()),
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
     }
   }
@@ -69,14 +70,14 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       // Firebase Authentication for Login
-      // UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-      //   email: _emailController.text.trim(),
-      //   password: _passwordController.text.trim(),
-      // );
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
 
-      // Store UID in SharedPreferences
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // await prefs.setString('uid', userCredential.user!.uid);
+      //   // Store UID in SharedPreferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('uid', userCredential.user!.uid);
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -88,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
       // Navigate to BottomBar on successful login
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => BottomBar()),
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
     } catch (e) {
       String errorMessage = "Login Failed. Please try again.";
@@ -133,7 +134,10 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Text(
                     "Welcome Back",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Color(0xFFD95639)),
                   ),
                   SizedBox(height: 30),
                   // Email TextFormField
@@ -194,7 +198,8 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text(
                           "Sign Up",
                           style: TextStyle(
-                              color: Color(0xFFD95639), fontWeight: FontWeight.bold),
+                              color: Color(0xFFD95639),
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -225,7 +230,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30),
-        borderSide: BorderSide(color: Colors.grey, width: 2.0),
+        borderSide: BorderSide(color: Color(0xFFD95639), width: 2.0),
       ),
     );
   }
