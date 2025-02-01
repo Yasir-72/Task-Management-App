@@ -5,7 +5,7 @@ import 'package:task_managment_app/view/screens/loginpage.dart';
 
 class AppDrawer extends StatelessWidget {
   final FirebaseAuth _auth =
-      FirebaseAuth.instance; // Create an instance of FirebaseAuth
+      FirebaseAuth.instance; 
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class AppDrawer extends StatelessWidget {
                 CircleAvatar(
                   radius: 40,
                   backgroundImage: AssetImage(
-                    'images/man.png', // Replace with your avatar image
+                    'images/man.png', 
                   ),
                 ),
                 const SizedBox(height: 10),

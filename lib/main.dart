@@ -19,6 +19,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData.light().copyWith(
+        checkboxTheme: CheckboxThemeData(
+            checkColor: MaterialStateProperty.all(Color(0xFFD95639)),
+            fillColor: MaterialStateProperty.all(Color(0xFFD95639))),
         primaryColor: Color(0xFFD95639), // Header background color
         scaffoldBackgroundColor: Colors.white,
         dialogBackgroundColor: Colors.white,

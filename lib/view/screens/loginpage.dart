@@ -69,13 +69,11 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
-      // Firebase Authentication for Login
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
 
-      //   // Store UID in SharedPreferences
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('uid', userCredential.user!.uid);
 
@@ -86,28 +84,36 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
 
-      // Navigate to BottomBar on successful login
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
       );
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
+      print("FirebaseAuthException caught: ${e.code}"); // Debug print
       String errorMessage = "Login Failed. Please try again.";
 
-      // Check specific error codes and display more specific messages
-      if (e.toString().contains('user-not-found')) {
+      if (e.code == 'user-not-found') {
         errorMessage =
             "No user found with this email. Please check your email.";
-      } else if (e.toString().contains('wrong-password')) {
+      } else if (e.code == 'wrong-password') {
         errorMessage = "Incorrect password. Please try again.";
-      } else if (e.toString().contains('invalid-email')) {
+      } else if (e.code == 'invalid-email') {
         errorMessage = "Invalid email format. Please enter a valid email.";
+      } else {
+        print("Unhandled Firebase error code: ${e.code}");
       }
 
-      // Display a more specific error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(errorMessage),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } catch (e) {
+      print("Unexpected error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("An unexpected error occurred. Please try again."),
           backgroundColor: Colors.red,
         ),
       );
