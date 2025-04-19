@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:multi_select_flutter/util/multi_select_list_type.dart';
@@ -34,7 +36,6 @@ class _AdminPageState extends State<AdminPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.arrow_back),
         title: const Text('New Task'),
         centerTitle: true,
       ),
@@ -63,76 +64,76 @@ class _AdminPageState extends State<AdminPage> {
               Wrap(
                 alignment: WrapAlignment.center,
                 children: [
-                  DetailCards(
-                    _startDate == null
-                        ? "Start Date"
-                        : "${_startDate!.toLocal()}".split(' ')[0],
-                    GestureDetector(
-                      onTap: () async {
-                        DateTime? pickedStartDate = await showDatePicker(
-                          context: context,
-                          initialDate: _startDate ?? DateTime.now(),
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime(3000),
-                        );
-                        if (pickedStartDate != null) {
-                          setState(() {
-                            _startDate = pickedStartDate;
-                            _endDate = _startDate!
-                                .add(const Duration(microseconds: 1));
-                          });
-                        }
-                      },
-                      child: const Icon(
+                  GestureDetector(
+                    onTap: () async {
+                      DateTime? pickedStartDate = await showDatePicker(
+                        context: context,
+                        initialDate: _startDate ?? DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(3000),
+                      );
+                      if (pickedStartDate != null) {
+                        setState(() {
+                          _startDate = pickedStartDate;
+                          _endDate =
+                              _startDate!.add(const Duration(microseconds: 1));
+                        });
+                      }
+                    },
+                    child: DetailCards(
+                      _startDate == null
+                          ? "Start Date"
+                          : "${_startDate!.toLocal()}".split(' ')[0],
+                      const Icon(
                         Icons.calendar_month_outlined,
                         color: Colors.white,
                       ),
                     ),
                   ),
-                  DetailCards(
-                    _endDate == null
-                        ? "End Date"
-                        : "${_endDate!.toLocal()}".split(' ')[0],
-                    GestureDetector(
-                      onTap: () async {
-                        if (_startDate == null) return;
-                        DateTime? pickedEndDate = await showDatePicker(
-                          context: context,
-                          initialDate: _endDate ??
-                              _startDate!.add(const Duration(microseconds: 0)),
-                          firstDate:
-                              _startDate!.add(const Duration(microseconds: 0)),
-                          lastDate: DateTime(3000),
-                        );
-                        if (pickedEndDate != null) {
-                          setState(() {
-                            _endDate = pickedEndDate;
-                          });
-                        }
-                      },
-                      child: const Icon(
+                  GestureDetector(
+                    onTap: () async {
+                      if (_startDate == null) return;
+                      DateTime? pickedEndDate = await showDatePicker(
+                        context: context,
+                        initialDate: _endDate ??
+                            _startDate!.add(const Duration(microseconds: 0)),
+                        firstDate:
+                            _startDate!.add(const Duration(microseconds: 0)),
+                        lastDate: DateTime(3000),
+                      );
+                      if (pickedEndDate != null) {
+                        setState(() {
+                          _endDate = pickedEndDate;
+                        });
+                      }
+                    },
+                    child: DetailCards(
+                      _endDate == null
+                          ? "End Date"
+                          : "${_endDate!.toLocal()}".split(' ')[0],
+                      const Icon(
                         Icons.calendar_month_outlined,
                         color: Colors.white,
                       ),
                     ),
                   ),
-                  DetailCards(
-                    _selectedTime == null
-                        ? "Select Time"
-                        : _selectedTime!.format(context),
-                    GestureDetector(
-                      onTap: () async {
-                        TimeOfDay? pickedTime = await showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.now(),
-                        );
-                        if (pickedTime != null && pickedTime != _selectedTime) {
-                          setState(() {
-                            _selectedTime = pickedTime;
-                          });
-                        }
-                      },
-                      child: const Icon(
+                  GestureDetector(
+                    onTap: () async {
+                      TimeOfDay? pickedTime = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+                      if (pickedTime != null && pickedTime != _selectedTime) {
+                        setState(() {
+                          _selectedTime = pickedTime;
+                        });
+                      }
+                    },
+                    child: DetailCards(
+                      _selectedTime == null
+                          ? "Select Time"
+                          : _selectedTime!.format(context),
+                      const Icon(
                         Icons.access_time,
                         color: Colors.white,
                       ),
@@ -198,7 +199,6 @@ class _AdminPageState extends State<AdminPage> {
               "${member['name']} (${member['role']})",
             ))
         .toList();
-
     return MultiSelectDialogField<Map<String, String>>(
       items: items,
       selectedColor: Color(0xFFD95639),
@@ -216,7 +216,6 @@ class _AdminPageState extends State<AdminPage> {
         });
       },
       decoration: BoxDecoration(
-        padd
         color: Colors.grey[200],
         borderRadius: BorderRadius.circular(35),
         border: Border.all(color: Colors.transparent),
